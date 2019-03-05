@@ -33,6 +33,7 @@
     composes: root from '../clickable.css';
     height: 3rem;
     width: 3rem;
+    color:black;
 }
 
 .logo {
@@ -47,4 +48,5 @@
 .secondaryActions {
     grid-area: secondary;
     justify-self: end;
+
 }

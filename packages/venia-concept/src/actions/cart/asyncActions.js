@@ -133,6 +133,83 @@ export const addItemToCart = (payload = {}) => {
     };
 };
 
+export const updateItemInCart = (payload = {}, targetItemId) => {
+    const { item, options,parentSku, productType, quantity } = payload;
+    const writingImageToCache = writeImageToCache(item);
+
+     return async function thunk(dispatch, getState) {
+        await writingImageToCache;
+        dispatch(actions.updateItem.request(payload));
+
+        const { user } = getState();
+        if(user.isSignedIn) {
+            return;
+        }
+
+        try {
+            const { cart } = getState();
+            const { guestCartId } = cart;
+
+            if(!guestCartId) {
+                const missingGuestCartError = new Error(
+                    'Missing required information: guestCartId');
+
+                missingGuestCartError.noGuestCartId = true;
+                throw missingGuestCartError;
+            }
+
+            const itemPayload = {
+                qty: quantity,
+                sku: item.sku,
+                name: item.name,
+                quote_id: guestCartId
+            };
+
+            if (productType === 'ConfigurableProduct') {
+                Object.assign(itemPayload, {
+                    sku: parentSku,
+                    product_type: 'configurable',
+                    product_option:{
+                        extension_attributes:{
+                            configurable_item_options: options
+                        }
+                    }
+                });
+            }
+
+            const cartItem = await request (
+                `/rest/V1/guest-carts/${guestCartId}/items/${targetItemId}`,
+            {
+                method:'PUT',
+                body: JSON.stringify({
+                    cartItem: itemPayload
+                })
+            }
+        );
+
+        dispatch(actions.updateItem.receive({ cartItem, item, quantity }));
+
+        } catch (error) {
+            const { response, noGuestCartId } = error;
+
+            dispatch(actions.updateItem.receive(error));
+
+            if(noGuestCartId || (response && response.status === 404)) {
+                await clearGuestCartId();
+
+                await dispatch(createGuestCart());
+
+                return thunk(...arguments);
+            }
+        }
+
+        await Promise.all([
+            dispatch(toggleDrawer('cart')),
+            dispatch(getCartDetails({ forceRefresh: true }))
+        ]);
+     };
+};
+
 export const removeItemFromCart = payload => {
     const { item } = payload;
 
@@ -190,6 +267,13 @@ export const removeItemFromCart = payload => {
         await Promise.all([dispatch(getCartDetails({ forceRefresh: true }))]);
     };
 };
+
+export const openEditPanel = () => async dispatch =>
+    dispatch(actions.openEditPanel.receive());
+
+export const hideEditPanel = () => async dispatch =>
+    dispatch(actions.hideEditPanel.receive());
+
 
 export const getCartDetails = (payload = {}) => {
     const { forceRefresh } = payload;

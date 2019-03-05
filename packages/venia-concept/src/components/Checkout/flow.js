@@ -78,7 +78,8 @@ class Flow extends Component {
             submitAddress,
             submitOrder,
             submitPaymentMethod,
-            submitShippingMethod
+            submitShippingMethod,
+            closeCheckoutForm
         } = actions;
 
         const {
@@ -119,7 +120,8 @@ class Flow extends Component {
                     submitOrder,
                     submitPaymentMethod,
                     submitShippingMethod,
-                    submitting
+                    submitting,
+                    closeCheckoutForm
                 };
 
                 const formProps = {

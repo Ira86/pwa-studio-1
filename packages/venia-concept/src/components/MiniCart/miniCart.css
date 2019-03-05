@@ -34,11 +34,11 @@
     overflow: auto;
 }
 
-.focusItem {
+/*.focusItem {
     display: block;
     box-shadow: 0 1px rgb(var(--venia-border));
     padding: 1rem;
-}
+}*/
 
 .footer {
     box-shadow: 0 -1px rgb(var(--venia-border));
@@ -62,13 +62,23 @@
     z-index: 1;
 }
 
-.options {
+/*.options {
     padding: 1rem;
     font-weight: bold;
+
+}*/
+
+.subtotalLabel {
+    color:rgb(var(--venia-text-alt));
 }
 
-.price {
+/*.price {
     float: right;
+}*/
+
+.subtotalValue{
+    font-weight: 600;
+    margin-left: 0.5rem;
 }
 
 .title {
@@ -88,7 +98,7 @@
     justify-content: center;
 }
 
-.save {
+/*.save {
     justify-content: center;
     display: flex;
     padding: 1rem 0;
@@ -107,7 +117,7 @@
     font-weight: 600;
     margin-left: 0.5rem;
 }
-
+*/
 .placeholderButton {
     text-align: center;
     margin: 1.5rem 0 1rem 0;

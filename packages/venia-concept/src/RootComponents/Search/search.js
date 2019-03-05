@@ -84,7 +84,7 @@ export class Search extends Component {
 
         const { inputText, categoryId } = getSearchParams(location);
 
-        if (!inputText) return <Redirect to="/" />;
+        if (!inputText) return <Redirect to="/" />; 
 
         const queryVariable = categoryId
             ? { inputText, categoryId }

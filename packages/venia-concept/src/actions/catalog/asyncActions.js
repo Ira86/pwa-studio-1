@@ -1,5 +1,6 @@
 import actions from './actions';
 
+
 export const getAllCategories = () =>
     async function thunk(dispatch) {
         dispatch(actions.getAllCategories.request());

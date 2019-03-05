@@ -8,6 +8,7 @@ import Section from './section';
 import ShippingForm from './shippingForm';
 import SubmitButton from './submitButton';
 
+import Button from 'src/components/Button';
 import classify from 'src/classify';
 import defaultClasses from './form.css';
 
@@ -27,7 +28,7 @@ class Form extends Component {
             body: string,
             footer: string,
             informationPrompt: string,
-            'informationPrompt--disabled': string,
+            //'informationPrompt--disabled': string,
             root: string
         }),
         editing: string,
@@ -136,6 +137,7 @@ class Form extends Component {
             classes,
             isShippingInformationReady,
             isPaymentMethodReady,
+            isShippingMethodReady,
             ready,
             submitOrder,
             submitting
@@ -144,19 +146,24 @@ class Form extends Component {
         return (
             <Fragment>
                 <div className={classes.body}>
-                    <Section label="Ship To" onClick={this.editAddress}>
+                    <Section label="Ship To" 
+                    label = "Ship To" 
+                    filedOption={isShippingInformationReady}
+                    onClick={this.editAddress}>
                         {this.addressSummary}
                     </Section>
                     <Section
-                        disabled={!isShippingInformationReady}
+                        
                         label="Pay With"
+                        filledOption={isPaymentMethodReady}
                         onClick={this.editPaymentMethod}
                     >
                         {this.paymentMethodSummary}
                     </Section>
                     <Section
-                        disabled={!isPaymentMethodReady}
+                       
                         label="Get It By"
+                        filledOption={isShippingMethodReady}
                         onClick={this.editShippingMethod}
                     >
                         {this.shippingMethodSummary}
@@ -171,6 +178,7 @@ class Form extends Component {
                     </Section>
                 </div>
                 <div className={classes.footer}>
+                <Button onClick={this.canelHandler}>Cancel</Button>
                     <SubmitButton
                         submitting={submitting}
                         valid={ready}
@@ -182,17 +190,11 @@ class Form extends Component {
     }
 
     get paymentMethodSummary() {
-        const {
-            classes,
-            isPaymentMethodReady,
-            isShippingInformationReady,
-            paymentTitle
-        } = this.props;
+        const { classes, isPaymentMethodReady, paymentTitle}=this.props;
 
         if (!isPaymentMethodReady) {
-            const promptClass = isShippingInformationReady
-                ? classes.informationPrompt
-                : classes['informationPrompt--disabled'];
+           
+           const promptClass = classes.informationPrompt;
             return <span className={promptClass}>Add Billing Information</span>;
         }
 
@@ -206,15 +208,13 @@ class Form extends Component {
     get shippingMethodSummary() {
         const {
             classes,
-            isPaymentMethodReady,
             isShippingMethodReady,
             shippingTitle
         } = this.props;
 
         if (!isShippingMethodReady) {
-            const promptClass = isPaymentMethodReady
-                ? classes.informationPrompt
-                : classes['informationPrompt--disabled'];
+            const promptClass = classes.informationPrompt;
+                
             return (
                 <span className={promptClass}>Add Shipping Information</span>
             );
@@ -237,6 +237,11 @@ class Form extends Component {
 
         return <div className={classes.root}>{children}</div>;
     }
+
+    cancelHandler = () => {
+        const { closeCheckoutForm } = this.props;
+        closeCheckoutForm();
+    };
 
     /*
      *  Event Handlers.

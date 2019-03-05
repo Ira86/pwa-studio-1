@@ -9,7 +9,8 @@ export const initialState = {
     details: {},
     guestCartId: null,
     shippingMethods: [],
-    totals: {}
+    totals: {},
+    itemEditOpen: false
 };
 
 const reducerMap = {
@@ -51,6 +52,17 @@ const reducerMap = {
             }))
         };
     },
+    [actions.addItem.receive]: (state, { payload,error }) => {
+        if (error) {
+            return state;
+        }
+        return {
+            ...state,
+            ...payload,
+            itemEditOpen: false
+        };
+    },
+
     [actions.removeItem.receive]: (state, { payload, error }) => {
         if (error) {
             return initialState;
@@ -65,6 +77,19 @@ const reducerMap = {
             ...payload
         };
     },
+    [actions.openEditPanel.receive]: state => {
+        return {
+            ...state,
+            itemEditOpen:true
+        };
+    },
+    [actions.hideEditPanel.receive]:state => {
+        return {
+            ...state,
+            itemEditOpen:false
+        };
+    },
+
     [checkoutActions.order.accept]: () => {
         return initialState;
     }

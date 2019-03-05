@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import './home.css';
+import defaultClasses from './home.css';
 
 class Home extends Component {
     render() {
@@ -40,7 +40,7 @@ class Home extends Component {
                     <div className="Home-storySection-content">
                         <p className="Home-storySection-content-copy">
                             <span>
-                                Style is personal. Realizing this wasn't what
+                                Style is personal. Realizing this wasnt what               
                                 most brands were sensitive to, we built a
                                 lifestyle brand that caters to creative,
                                 sensitive, strong women.

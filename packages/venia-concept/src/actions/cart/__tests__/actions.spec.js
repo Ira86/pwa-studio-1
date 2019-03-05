@@ -122,3 +122,4 @@ test('getDetails.receive() returns a proper action object', () => {
         error: true
     });
 });
+

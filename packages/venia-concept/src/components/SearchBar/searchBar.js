@@ -134,6 +134,7 @@ export class SearchBar extends Component {
                     >
                         <TextInput
                             field="search_query"
+			    placeholder="I'm looking for"
                             onFocus={this.inputFocus}
                             onChange={this.handleInputChange}
                             after={resetButton}

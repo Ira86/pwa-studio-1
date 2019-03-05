@@ -5,15 +5,18 @@ import { bool, object, shape, string } from 'prop-types';
 
 import { Price } from '@magento/peregrine';
 import classify from 'src/classify';
-import { getCartDetails, removeItemFromCart } from 'src/actions/cart';
+import { getCartDetails, updateItemInCart, removeItemFromCart,openEditPanel,
+hideEditPanel } from 'src/actions/cart';
 import Icon from 'src/components/Icon';
-import Button from 'src/components/Button';
 import CheckoutButton from 'src/components/Checkout/checkoutButton';
 import EmptyMiniCart from './emptyMiniCart';
 import ProductList from './productList';
 import Trigger from './trigger';
 import defaultClasses from './miniCart.css';
 import { isEmptyCartVisible } from 'src/selectors/cart';
+import CartOptions from './cartOptions';
+import getProductDetailByName from '../../queries/getProductDetailByName.graphql';
+import { Query } from 'react-apollo';
 
 const Checkout = React.lazy(() => import('src/components/Checkout'));
 
@@ -43,7 +46,6 @@ class MiniCart extends Component {
     constructor(...args) {
         super(...args);
         this.state = {
-            isEditPanelOpen: false,
             focusItem: null
         };
     }
@@ -133,73 +135,76 @@ class MiniCart extends Component {
     }
 
     get productOptions() {
-        const { classes } = this.props;
+        const { props, state, hideEditPanel } = this;
+        const { updateItemInCart } = props;
+        const { focusItem } = state;
 
-        const itemName = this.state.focusItem
-            ? this.state.focusItem.name
-            : null;
-        const itemPrice = this.state.focusItem
-            ? this.state.focusItem.price
-            : null;
+        if (focusItem === null) return;
+        const hasOptions = focusItem.options.length !== 0;
 
-        return (
-            <div className={classes.content}>
-                <div className={classes.focusItem}>
-                    {itemName}
-                    <div className={classes.price}>${itemPrice}</div>
-                </div>
-                <div className={classes.options}>Choose a Size:</div>
-            </div>
-        );
-    }
+        return hasOptions ? (
+            // `Name` is being used here because GraphQL does not allow
+            // filtering products by id, and sku is unreliable without
+            // a reference to the base product. Additionally, `url-key`
+            // cannot be used because we don't have page context in cart.
+            <Query
+                query={getProductDetailByName}
+                variables={{ name: focusItem.name, onServer: false }}
+            >
+                {({ loading, error, data }) => {
+                    if (error) return <div>Data Fetch Error</div>;
+                    if (loading) return <div>Fetching Data</div>;
 
-    get productConfirm() {
-        const { classes } = this.props;
+                    const itemWithOptions = data.products.items[0];
 
-        return (
-            <div className={classes.save}>
-                <Button onClick={this.hideEditPanel}>Cancel</Button>
-                <Button>Update Cart</Button>
-            </div>
+                    return (
+                        <Fragment>
+                            <CartOptions
+                                cartItem={focusItem}
+                                configItem={itemWithOptions}
+                                hideEditPanel={hideEditPanel}
+                                updateCart={updateItemInCart}
+                            />
+                        </Fragment>
+                    );
+                }}
+            </Query>
+        ) : (
+            <Fragment>
+                <CartOptions
+                    cartItem={focusItem}
+                    configItem={{}}
+                    hideEditPanel={hideEditPanel}
+                    updateCart={updateItemInCart}
+                />
+            </Fragment>
         );
     }
 
     showEditPanel = item => {
         this.setState({
-            isEditPanelOpen: true,
             focusItem: item
         });
+
+        this.props.openEditPanel();
     };
 
     hideEditPanel = () => {
-        this.setState({
-            isEditPanelOpen: false
-        });
+        this.props.hideEditPanel();
     };
 
     get miniCartInner() {
-        const {
-            checkout,
-            productConfirm,
-            productList,
-            productOptions,
-            props,
-            state
-        } = this;
+        const { checkout, productList, props } = this;
         const { classes, isCartEmpty } = props;
 
         if (isCartEmpty) {
             return <EmptyMiniCart />;
         }
 
-        const { isEditPanelOpen } = state;
-        const body = isEditPanelOpen ? productOptions : productList;
-        const footer = isEditPanelOpen ? productConfirm : checkout;
-
         return (
             <Fragment>
-                <div className={classes.body}>{body}</div>
-                <div className={classes.footer}>{footer}</div>
+                <div className={classes.body}>{productList}</div>
+                <div className={classes.footer}>{checkout}</div>
             </Fragment>
         );
     }
@@ -209,12 +214,12 @@ class MiniCart extends Component {
             return <div>Fetching Data</div>;
         }
 
-        const { miniCartInner, props } = this;
-        const { classes, isOpen } = props;
+        const { miniCartInner, productOptions, props } = this;
+        const { classes, cart, isOpen } = props;
         const className = isOpen ? classes.root_open : classes.root;
-        const title = this.state.isEditPanelOpen
-            ? 'Edit Cart Item'
-            : 'Shopping Cart';
+
+        const body = cart.itemEditOpen ? productOptions : miniCartInner;
+        const title = cart.itemEditOpen ? 'Edit Cart Item' : 'Shopping Cart';
 
         return (
             <aside className={className}>
@@ -226,7 +231,7 @@ class MiniCart extends Component {
                         <Icon name="x" />
                     </Trigger>
                 </div>
-                {miniCartInner}
+                {body}
             </aside>
         );
     }
@@ -241,11 +246,16 @@ const mapStateToProps = state => {
     };
 };
 
-const mapDispatchToProps = { getCartDetails, removeItemFromCart };
+const mapDispatchToProps = {
+    getCartDetails,
+    updateItemInCart,
+    removeItemFromCart,
+    openEditPanel,
+    hideEditPanel
+};
 
-export default compose(
-    classify(defaultClasses),
-    connect(
+export default compose(classify(defaultClasses),
+        connect(
         mapStateToProps,
         mapDispatchToProps
     )

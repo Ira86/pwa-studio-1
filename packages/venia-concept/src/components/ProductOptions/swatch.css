@@ -5,6 +5,7 @@
     color: white;
     padding: 0;
     --venia-swatch-bg: var(--venia-grey);
+    border-radius: 50px
 }
 
 .root_selected {
