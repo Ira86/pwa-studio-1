@@ -9,6 +9,7 @@ import { InMemoryCache } from 'apollo-cache-inmemory';
 import { Provider as ReduxProvider } from 'react-redux';
 import { Router, Util } from '@magento/peregrine';
 
+
 import store from 'src/store';
 
 import app from 'src/actions/app';

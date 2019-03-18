@@ -20,7 +20,9 @@ class Trigger extends Component {
         const { children, classes, openNav } = this.props;
 
         return (
-            <button className={classes.root} onClick={openNav}>
+            <button className={classes.root} 
+                arial-black="Toggle navigation panel"
+                onClick={openNav}>
                 {children}
             </button>
         );

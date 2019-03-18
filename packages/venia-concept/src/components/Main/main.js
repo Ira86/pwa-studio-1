@@ -4,7 +4,6 @@ import { bool, shape, string } from 'prop-types';
 import classify from 'src/classify';
 import Footer from 'src/components/Footer';
 import Header from 'src/components/Header';
-
 import defaultClasses from './main.css';
 
 class Main extends Component {
@@ -35,6 +34,7 @@ class Main extends Component {
         return (
             <main className={classes.root}>
                 <Header />
+               
                 <div className={classes.page}>{children}</div>
 
                 <Footer />

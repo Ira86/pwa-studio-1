@@ -3,6 +3,8 @@ import { bool, number, oneOfType, shape, string } from 'prop-types';
 
 import classify from 'src/classify';
 import Icon from 'src/components/Icon';
+import SwatchTooltip from 'src/components/SwatchTooltip';
+import CheckIcon from 'react-feather/dist/icons/check';
 import defaultClasses from './swatch.css';
 
 // TODO: replace with actual swatch colors or images from API
@@ -46,7 +48,7 @@ class Swatch extends Component {
             isSelected,
             item,
             // eslint-disable-next-line
-            itemIndex,
+           itemIndex,
             style,
             ...restProps
         } = props;
@@ -63,7 +65,9 @@ class Swatch extends Component {
         });
 
         return (
-            <button
+            <SwatchTooltip text={label}
+            >
+                <button
                 {...restProps}
                 className={className}
                 style={finalStyle}
@@ -71,6 +75,7 @@ class Swatch extends Component {
             >
                 {icon}
             </button>
+            </SwatchTooltip>
         );
     }
 }

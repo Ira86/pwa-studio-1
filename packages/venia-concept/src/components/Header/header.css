@@ -1,11 +1,14 @@
 .root {
-    background-color: rgb(var(--venia-grey));
+    background-color: black;
     box-shadow: 0 1px rgb(var(--venia-border));
     display: grid;
     grid-auto-columns: 100%;
     grid-auto-flow: row;
     grid-auto-rows: auto;
     grid-row-gap: 0.5rem;
+    position: sticky;
+    top:0;
+    z-index:10;
 }
 
 .open {
@@ -33,7 +36,7 @@
     composes: root from '../clickable.css';
     height: 3rem;
     width: 3rem;
-    color:black;
+    color: white;
 }
 
 .logo {

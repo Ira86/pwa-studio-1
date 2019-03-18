@@ -1,29 +1,38 @@
 .root {
-    background-color: rgb(var(--venia-grey));
+    background-color: black;
     border-top: 1px solid rgb(var(--venia-border));
     color: black;
     margin-top: 1rem;
     padding: 0 1rem;
+    text-align: center;
 }
 
 .tile {
     border-bottom: 1px solid rgb(var(--venia-border));
     padding: 1rem 2rem;
+    color: white;
+}
+
+.socialIcon {
+    color:white;
 }
 
 .tileTitle {
     font-size: 1.25rem;
     margin: 1rem 0;
+    color: white;
 }
 
 .tileBody {
     font-size: 0.875rem;
     line-height: 1.25rem;
     margin: 1rem 0;
+    color:white;
 }
 
 .copyright {
-    color: rgb(var(--venia-text-alt));
+    display:block;
+    color: white;
     font-size: 0.75rem;
     padding: 1.5rem 2rem;
     text-align: center;

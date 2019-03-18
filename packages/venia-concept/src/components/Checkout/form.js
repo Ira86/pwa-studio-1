@@ -28,6 +28,8 @@ class Form extends Component {
             body: string,
             footer: string,
             informationPrompt: string,
+            paymentDisplayPrimary: string,
+            paymentDisplaySecondary: string,
             //'informationPrompt--disabled': string,
             root: string
         }),
@@ -37,8 +39,13 @@ class Form extends Component {
         isPaymentMethodReady: bool,
         isShippingInformationReady: bool,
         isShippingMethodReady: bool,
-        paymentMethod: string,
-        paymentTitle: string,
+        paymentData: shape({
+            description: string,
+            details: shape({
+                cardType: string
+            }),
+            nonce: string
+        }),
         ready: bool,
         shippingMethod: string,
         shippingTitle: string,

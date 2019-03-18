@@ -13,7 +13,7 @@ class Quantity extends Component {
         }),
         items: arrayOf(
             shape({
-                value: ''
+                value: number
             })
         )
     };

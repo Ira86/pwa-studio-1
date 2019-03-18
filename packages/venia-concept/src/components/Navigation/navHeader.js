@@ -6,6 +6,7 @@ import Icon from 'src/components/Icon';
 import Trigger from 'src/components/Trigger';
 import defaultClasses from './navHeader.css';
 
+
 class NavHeader extends Component {
     static propTypes = {
         classes: shape({

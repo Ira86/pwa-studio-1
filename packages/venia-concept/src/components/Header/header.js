@@ -10,6 +10,7 @@ import CartTrigger from './cartTrigger';
 import NavTrigger from './navTrigger';
 import SearchTrigger from './searchTrigger';
 
+ 
 const SearchBar = React.lazy(() => import('src/components/SearchBar'));
 
 import defaultClasses from './header.css';
@@ -54,6 +55,7 @@ class Header extends Component {
                             height="24"
                             alt="Venia"
                             title="Venia"
+                           
                         />
                     </Link>
                     <div className={classes.primaryActions}>

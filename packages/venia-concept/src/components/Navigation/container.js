@@ -5,6 +5,7 @@ import { getAllCategories } from 'src/actions/catalog';
 import { createAccount } from 'src/actions/user';
 import Navigation from './navigation';
 
+
 const mapStateToProps = ({ catalog, user }) => {
     const { categories, rootCategoryId } = catalog;
     const { firstname, email, isSignedIn, lastname } = user;

@@ -10,6 +10,18 @@ const data = [
     },
     {
         value: 4
+    },
+    {
+        value: 5
+    },
+    {
+        value: 6
+    },
+    {
+        value: 7
+    },
+    {
+        value: 8
     }
 ];
 

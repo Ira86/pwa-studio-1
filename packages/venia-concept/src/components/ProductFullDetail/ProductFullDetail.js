@@ -130,6 +130,7 @@ class ProductFullDetail extends Component {
                 <Options
                     options={configurable_options}
                     onSelectionChange={handleSelectionChange}
+                    required={true}
                 />
             </Suspense>
         );

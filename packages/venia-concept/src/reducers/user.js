@@ -9,12 +9,15 @@ import actions from 'src/actions/user';
 
 export const name = 'user';
 
+const isSignedIn = () => !!storage.getItem('signin_token');
+
 const initialState = {
-    isSignedIn: !!storage.getItem('signin_token'),
+    isSignedIn: isSignedIn(),
     currentUser: {
         email: '',
         firstname: '',
-        lastname: ''
+        lastname: '',
+        addresses: []
     },
     signInError: {}
 };
@@ -29,7 +32,7 @@ const reducerMap = {
             ...state,
             ...payload,
             isSignedIn: true,
-            currentUser: Object.assign(payload)
+            currentUser: payload
         };
     },
     [actions.signInError.receive]: (state, { payload }) => {
@@ -55,6 +58,12 @@ const reducerMap = {
         return {
             ...state,
             createAccountError: {}
+        };
+    },
+    [actions.signIn.reset]: ()=>{
+        return {
+            ...initialState,
+            isSignedIn: isSignedIn()
         };
     }
 };

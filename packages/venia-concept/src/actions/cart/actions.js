@@ -36,6 +36,10 @@ const actionMap = {
     HIDE_EDIT_PANEL: {
         REQUEST: null,
         RECEIVE: null
+    },
+
+    CART:{
+    	RESET: null
     }
 };
 

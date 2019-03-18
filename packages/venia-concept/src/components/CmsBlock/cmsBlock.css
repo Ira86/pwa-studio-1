@@ -1,5 +1,6 @@
 .root {
     margin: 1rem;
+    padding: 1rem;
 }
 
 .content h2 {
@@ -15,3 +16,4 @@
     max-width: 100%;
     width: auto;
 }
+

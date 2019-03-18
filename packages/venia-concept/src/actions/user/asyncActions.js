@@ -1,11 +1,13 @@
 import { RestApi } from '@magento/peregrine';
 import { Util } from '@magento/peregrine';
 import { removeGuestCart } from 'src/actions/cart';
+import { refresh } from 'src/util/router-helpers';
 
 const { request } = RestApi.Magento2;
 const { BrowserPersistence } = Util;
 
 import actions from './actions';
+import { fetchUserDetails } from './api';
 
 export const signIn = credentials =>
     async function thunk(...args) {
@@ -31,15 +33,20 @@ export const signIn = credentials =>
 
             setToken(response);
 
-            const userDetails = await request('/rest/V1/customers/me', {
-                method: 'GET'
-            });
+            const userDetails = await fetchUserDetails();
 
             dispatch(actions.signIn.receive(userDetails));
         } catch (error) {
             dispatch(actions.signInError.receive(error));
         }
     };
+
+export const signOut = ({ history }) => dispatch => {
+    setToken(null);
+    dispatch(actions.signIn.reset());
+    refresh({ history });
+
+};
 
 export const getUserDetails = () =>
     async function thunk(...args) {
@@ -48,9 +55,8 @@ export const getUserDetails = () =>
         if (user.isSignedIn) {
             dispatch(actions.resetSignInError.request());
             try {
-                const userDetails = await request('/rest/V1/customers/me', {
-                    method: 'GET'
-                });
+                const userDetails = await fetchUserDetails();
+                
                 dispatch(actions.signIn.receive(userDetails));
             } catch (error) {
                 dispatch(actions.signInError.receive(error));

@@ -1,8 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-
+import Icon from 'src/components/Icon';
+import PhoneCallIcon from 'react-feather/dist/icons/phone-call';
+import SendIcon from 'react-feather/dist/icons/send';
+import UserIcon from 'react-feather/dist/icons/user';
+import FacebookIcon from 'react-feather/dist/icons/facebook';
 import classify from 'src/classify';
 import defaultClasses from './footer.css';
+import storeConfigDataQuery from '../../queries/getStoreConfigData.graphql';
+import { Query } from 'react-apollo';
 
 class Footer extends Component {
     static propTypes = {
@@ -11,58 +17,96 @@ class Footer extends Component {
             root: PropTypes.string,
             tile: PropTypes.string,
             tileBody: PropTypes.string,
-            tileTitle: PropTypes.string
+            tileTitle: PropTypes.string,
+            socialIcon: PropTypes.string
         })
     };
 
     render() {
         const { classes } = this.props;
-
+        const year = new Date().getFullYear();
         return (
             <footer className={classes.root}>
-                <div className={classes.tile}>
-                    <h2 className={classes.tileTitle}>
-                        <span>Your Account</span>
-                    </h2>
-                    <p className={classes.tileBody}>
-                        <span>
-                            Sign up and get access to our wonderful rewards
-                            program.
-                        </span>
-                    </p>
-                </div>
-                <div className={classes.tile}>
-                    <h2 className={classes.tileTitle}>
-                        <span>inquiries@example.com</span>
-                    </h2>
-                    <p className={classes.tileBody}>
-                        <span>
-                            Need to email us? Use the address above and
-                            we&rsquo;ll respond as soon as possible.
-                        </span>
-                    </p>
-                </div>
-                <div className={classes.tile}>
-                    <h2 className={classes.tileTitle}>
-                        <span>Live Chat</span>
-                    </h2>
-                    <p className={classes.tileBody}>
-                        <span>Mon – Fri: 5 a.m. – 10 p.m. PST</span>
-                        <br />
-                        <span>Sat – Sun: 6 a.m. – 9 p.m. PST</span>
-                    </p>
-                </div>
+              <ul className={classes.tile}>
+                    <h3 className={classes.tileTitle}>
+                       Contact us  </h3>
+                    <li className={classes.titleBody}>
+                        <Icon name= "phone-call"/>
+                        <span> 076 716 25 74 </span>
+                    </li>
+                  
+                    <li> <Icon name="send" />
+                        <span>irina@nordicwebteam.se</span>
+                    </li>
+                    <br />
+                    <li>Address: <br/>
+                        <span>Kungsholmstorg 16, 
+                      
+                        112 21 Stockholm, Sweden</span>
+                    </li>
+                            <br />
+                            
+                    <a href="https://www.facebook.com/irina.kud"
+                    >
+                      <Icon name="facebook" />
+                    </a>
+                    <a href="https://www.instagram.com/call_me_ira/"
+                    > 
+                        <Icon name="instagram" />
+                    </a>
+
+                    <a href="https://github.com/Ira86"
+                    >
+
+                        <Icon name = "github" />
+                    </a>
+
+                </ul>
+
                 <div className={classes.tile}>
                     <h2 className={classes.tileTitle}>
                         <span>Help Center</span>
                     </h2>
                     <p className={classes.tileBody}>
                         <span>Get answers from our community online.</span>
+                           <a
+                            className="Home-storySection-content-actions-action"
+                            href="https://github.com/magento-research/pwa-studio"
+                            >
+                                <span>GitHub community</span>
+                            </a>
                     </p>
                 </div>
-                <div className={classes.copyright}>
-                    <span>© Magento 2018. All rights reserved.</span>
-                </div>
+                <small className={classes.copyright}>
+                   <Query query={storeConfigDataQuery}>
+                        {({ loading, error, data }) => {
+                            if (error) {
+                                return (
+                                    <span className={classes.fetchError}>
+                                        Data Fetch Error:{' '}
+                                        <pre>{error.message}</pre>
+                                    </span>
+                                );
+                            }
+                            if (loading) {
+                                return (
+                                    <span className={classes.fetchingData}>
+                                        Fetching Data
+                                    </span>
+                                );
+                            }
+                            const storeName =
+                                data.storeConfig.name || 'Magento';
+
+                            return (
+                                <span>
+                                    ©{year} Made by Irina Kudlai. Built with {storeName} PWA Studio.
+                                </span>
+                            );
+                    }}
+
+                    </Query>
+                </small>
             </footer>
         );
     }

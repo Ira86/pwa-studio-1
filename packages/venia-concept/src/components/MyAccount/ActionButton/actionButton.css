@@ -1,0 +1,7 @@
+.button {
+	color: rgb(var(--venia-teal));
+	text-decoration: underline;
+	font-size: 0.875rem;
+	font-weight:600;
+	text-align:center;
+}

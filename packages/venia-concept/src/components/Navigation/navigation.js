@@ -10,6 +10,8 @@ import ForgotPassword from 'src/components/ForgotPassword';
 import CategoryTree from './categoryTree';
 import NavHeader from './navHeader';
 import defaultClasses from './navigation.css';
+import { MyAccountTrigger } from '../MyAccountPage';
+
 
 class Navigation extends PureComponent {
     static propTypes = {
@@ -83,27 +85,14 @@ class Navigation extends PureComponent {
     }
 
     get footer() {
-        const { classes, firstname, lastname, email } = this.props;
+        const { classes } = this.props;
 
         return !this.props.isSignedIn ? (
             <div className={classes.authBar}>
                 <Button onClick={this.showSignInForm}>Sign In</Button>
             </div>
         ) : (
-            <div className={classes.userChip}>
-                <div className={classes.userAvatar}>
-                    <Icon name="user" />
-                </div>
-                <div className={classes.userInfo}>
-                    <p className={classes.userName}>
-                        {`${firstname} ${lastname}`}
-                    </p>
-                    <p className={classes.userEmail}>{email}</p>
-                </div>
-                <button className={classes.userMore}>
-                    <Icon name="chevron-up" />
-                </button>
-            </div>
+            <MyAccountTrigger/>
         );
     }
 
@@ -127,13 +116,7 @@ class Navigation extends PureComponent {
     createAccount = () => {};
 
     setCreateAccountForm = () => {
-        /*
-        When the CreateAccount component mounts, its email input will be set to
-        the value of the SignIn component's email input.
-        Inform's initialValue is set on component mount.
-        Once the create account button is dirtied, always render the CreateAccount
-        Component to show animation.
-        */
+       
         this.createAccount = className => {
             return (
                 <div className={className}>

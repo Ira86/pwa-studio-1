@@ -2,6 +2,14 @@
     display: block;
 }
 
+img {
+    display: block;
+    margin-right: auto;
+    margin-left: auto;
+    width: 40%;
+}
+
+
 .Home-hero {
     background-color: rgb(var(--venia-grey));
     color: white;
@@ -13,9 +21,9 @@
     padding: 1rem 1.5rem;
 }
 
-.Home-hero-title {
-    color: white;
-    font-size: 1.5rem;
+h1 {
+    color: sienna;
+    font-size: 2.5rem;
     font-weight: 400;
     margin: 0;
     min-width: 13.5rem;
@@ -29,9 +37,11 @@
     grid-column: 2 / 3;
     grid-row: 3 / 4;
     margin-top: 1.25rem;
+    border-radius: 15%;
+    border: 1px solid black;
 }
 
-.Home-hero-actions-action {
+.Home-hero-actions-action{
     align-items: center;
     background-color: black;
     border-radius: 1.5rem;
@@ -42,6 +52,7 @@
     height: 3rem;
     justify-content: center;
     line-height: 1;
+    border:1px solid black;
     padding: 0 1.25rem;
 }
 
@@ -57,7 +68,7 @@
     margin-top: 0.5rem;
 }
 
-.Home-storySection-title {
+h2 {
     font-size: 1.75rem;
     font-weight: 400;
     line-height: 1;
@@ -65,16 +76,21 @@
     text-align: center;
 }
 
+h2 a {
+    text-align: center;
+    color: darkblue;
+}
 .Home-storySection-image {
     background-color: rgb(var(--venia-grey));
     height: 360px;
 }
 
-.Home-storySection-content {
+ .Home-storySection-content {
     background-color: white;
     line-height: 1.75;
     padding: 2.5rem;
     text-align: center;
+    color:red;
 }
 
 .Home-storySection-content-copy:nth-of-type(1) {
@@ -82,6 +98,21 @@
     font-weight: 300;
     margin-bottom: 1.5rem;
     margin-top: 0;
+}
+
+ul.recommendList {
+    flex-wrap:wrap;
+    display: flex;
+    margin: 10px;
+    padding: 20px;
+   
+}
+
+.listBody img{
+    display: block;
+    width: 100%;
+    padding:10px;
+    box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
 }
 
 .Home-storySection-content-actions {

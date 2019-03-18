@@ -25,7 +25,7 @@ class ErrorDisplay extends Component {
 
         return (
             <pre className={classes.root}>
-                <code className={classes.body}>{message}</code>
+                <div className={classes.body}>Your password or email is incorrect!</div>
             </pre>
         );
     }
